@@ -20,13 +20,7 @@ $ source ./devel/setup.bash
 To run the code, use rosrun hello_world file_name.py
 ```
 $ rosrun hello_world hello.py
-```
-```
 $ rosrun hello_world listener.py
-```
-```
 $ rosrun hello_world second_listener.py
-```
-```
 $ rosrun hello_world last_listener.py
 ```
