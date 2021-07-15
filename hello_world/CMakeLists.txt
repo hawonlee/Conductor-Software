@@ -48,17 +48,17 @@ find_package(catkin REQUIRED COMPONENTS
 ##   * add every package in MSG_DEP_SET to generate_messages(DEPENDENCIES ...)
 
 ## Generate messages in the 'msg' folder
-# add_message_files(
-#   FILES
-#   Message1.msg
-#   Message2.msg
-# )
+add_message_files(
+   FILES
+   source_data.msg
+   kinect_data.msg
+)
 
 ## Generate services in the 'srv' folder
-add_service_files(
-   FILES
-   AddTwoInts.srv
-)
+# add_service_files(
+#   FILES
+#   AddTwoInts.srv
+#)
 
 ## Generate actions in the 'action' folder
 # add_action_files(
@@ -71,6 +71,7 @@ add_service_files(
 generate_messages(
    DEPENDENCIES
    std_msgs
+   hello_world
  )
 
 ################################################
@@ -205,6 +206,10 @@ include_directories(
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)
 
-catkin_install_python(PROGRAMS scripts/hello.py scripts/listener.py scripts/add_two_ints_server.py scripts/add_two_ints_client.py scripts/second_listener.py scripts/last_listener.py
+catkin_install_python(PROGRAMS scripts/hello.py scripts/listener.py scripts/second_listener.py scripts/last_listener.py scripts/talker.py scripts/virtual_console.py scripts/conductor.py scripts/tracking.py
 	DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
+
+add_executable(listener scripts/listener.cpp)
+target_link_libraries(listener ${catkin_LIBRARIES})
+add_dependencies(listener hello_world_generate_messages_cpp)
