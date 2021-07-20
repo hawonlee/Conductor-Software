@@ -50,8 +50,8 @@ find_package(catkin REQUIRED COMPONENTS
 ## Generate messages in the 'msg' folder
 add_message_files(
    FILES
-   source_data.msg
-   kinect_data.msg
+   source_data_t.msg
+   kinect_data_t.msg
 )
 
 ## Generate services in the 'srv' folder
@@ -206,10 +206,14 @@ include_directories(
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)
 
-catkin_install_python(PROGRAMS scripts/hello.py scripts/listener.py scripts/second_listener.py scripts/last_listener.py scripts/talker.py scripts/virtual_console.py scripts/conductor.py scripts/tracking.py
+catkin_install_python(PROGRAMS scripts/virtual_console.py scripts/conductor.py scripts/tracking.py scripts/trigger_source_GUI.py
 	DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 
-add_executable(listener scripts/listener.cpp)
-target_link_libraries(listener ${catkin_LIBRARIES})
-add_dependencies(listener hello_world_generate_messages_cpp)
+add_executable(subscriber scripts/subscriber.cpp)
+target_link_libraries(subscriber ${catkin_LIBRARIES})
+add_dependencies(subscriber hello_world_generate_messages_cpp)
+
+add_executable(publisher scripts/publisher.cpp)
+target_link_libraries(publisher ${catkin_LIBRARIES})
+add_dependencies(publisher hello_world_generate_messages_cpp)

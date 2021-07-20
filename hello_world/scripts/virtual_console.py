@@ -1,15 +1,14 @@
 #!/usr/bin/env python
 
 import rospy
-import numpy as np
-from hello_world.msg import source_data
+from hello_world.msg import source_data_t
 
 def virtual_console():
-	pub = rospy.Publisher('mult_type_chatter', source_data, queue_size=10)
+	pub = rospy.Publisher('source_data', source_data_t, queue_size=10)
 	rospy.init_node('virtual_console', anonymous=True)
 	rate = rospy.Rate(1)
 	while not rospy.is_shutdown():
-		msg = source_data()
+		msg = source_data_t()
 		msg.source_position = [1, 2, 3]
 		msg.source_direction = [1, 2, 3]
 		msg.source_aperture = [1, 2, 3]

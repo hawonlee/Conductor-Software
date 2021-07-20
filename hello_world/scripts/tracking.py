@@ -5,7 +5,7 @@ import numpy as np
 from hello_world.msg import kinect_data
 
 def tracking():
-	pub = rospy.Publisher('mult_type', kinect_data, queue_size=10)
+	pub = rospy.Publisher('kinect_data', kinect_data_t, queue_size=10)
 	rospy.init_node('tracking', anonymous=True)
 	rate = rospy.Rate(1)
 	while not rospy.is_shutdown():

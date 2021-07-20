@@ -1,9 +1,0 @@
-float64[] source_position
-float64[] source_direction
-float64[] source_aperture
-float64 mAs
-float64[] shield_Euler_angles
-float64[] shield_translation
-float64[] shield_attCoef
-string energy_spectrum_file
-string timestamp
