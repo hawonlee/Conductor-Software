@@ -210,9 +210,9 @@ catkin_install_python(PROGRAMS scripts/virtual_console.py scripts/conductor.py s
 	DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 
-add_executable(subscriber scripts/subscriber.cpp)
-target_link_libraries(subscriber ${catkin_LIBRARIES})
-add_dependencies(subscriber hello_world_generate_messages_cpp)
+add_executable(listener scripts/listener.cpp)
+target_link_libraries(listener ${catkin_LIBRARIES})
+add_dependencies(listener hello_world_generate_messages_cpp)
 
 add_executable(publisher scripts/publisher.cpp)
 target_link_libraries(publisher ${catkin_LIBRARIES})

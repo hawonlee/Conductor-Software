@@ -119,7 +119,6 @@ def trigger_acquisition() :
     print ("     --- Sending a message in the \"SOURCE_CHANNEL\" from the python GUI on: " + my_data.timestamp)
     #***NEW CHANGE-->I am not sure how to encode the data***
     pub.publish(my_data)
-#   pub.publish(my_data.encode())   
          
            
            
