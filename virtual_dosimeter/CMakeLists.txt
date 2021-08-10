@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.0.2)
-project(hello_world)
+project(virtual_dosimeter)
 
 ## Compile as C++11, supported in ROS Kinetic and newer
 # add_compile_options(-std=c++11)
@@ -71,7 +71,7 @@ add_message_files(
 generate_messages(
    DEPENDENCIES
    std_msgs
-   hello_world
+   virtual_dosimeter
  )
 
 ################################################
@@ -105,7 +105,7 @@ generate_messages(
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
 #  INCLUDE_DIRS include
-#  LIBRARIES hello_world
+#  LIBRARIES virtual_dosimeter
 #  CATKIN_DEPENDS roscpp rospy std_msgs
 #  DEPENDS system_lib
 )
@@ -123,7 +123,7 @@ include_directories(
 
 ## Declare a C++ library
 # add_library(${PROJECT_NAME}
-#   src/${PROJECT_NAME}/hello_world.cpp
+#   src/${PROJECT_NAME}/virtual_dosimeter.cpp
 # )
 
 ## Add cmake target dependencies of the library
@@ -198,7 +198,7 @@ include_directories(
 #############
 
 ## Add gtest based cpp test target and link libraries
-# catkin_add_gtest(${PROJECT_NAME}-test test/test_hello_world.cpp)
+# catkin_add_gtest(${PROJECT_NAME}-test test/test_virtual_dosimeter.cpp)
 # if(TARGET ${PROJECT_NAME}-test)
 #   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
 # endif()
@@ -206,14 +206,6 @@ include_directories(
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)
 
-catkin_install_python(PROGRAMS scripts/virtual_console.py scripts/conductor.py scripts/tracking.py scripts/trigger_source_GUI.py
+catkin_install_python(PROGRAMS scripts/conductor.py scripts/trigger_source_GUI.py scripts/dose_display.py scripts/monte_carlo.py scripts/trigger_operator.py
 	DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
-
-add_executable(listener scripts/listener.cpp)
-target_link_libraries(listener ${catkin_LIBRARIES})
-add_dependencies(listener hello_world_generate_messages_cpp)
-
-add_executable(publisher scripts/publisher.cpp)
-target_link_libraries(publisher ${catkin_LIBRARIES})
-add_dependencies(publisher hello_world_generate_messages_cpp)

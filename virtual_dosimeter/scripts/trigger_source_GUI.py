@@ -21,7 +21,7 @@ import rospy
 from math import *
 
 # Import my message data type (which has to be compiled for python with: "lcm-gen -p source_data_t.lcm"): ***NEW CHANGE***
-from hello_world.msg import source_data_t
+from virtual_dosimeter.msg import source_data_t
 
 
 #====================================================== 
