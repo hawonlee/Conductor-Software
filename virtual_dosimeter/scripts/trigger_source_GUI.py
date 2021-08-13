@@ -115,13 +115,12 @@ def trigger_acquisition() :
     # Set the timestamp in ASCII for easy debugging (not used really): 
     my_data.timestamp = time.ctime()    
     
-    #// Send LCM message:
+    #// Send ROS message:
     print ("     --- Sending a message in the \"SOURCE_CHANNEL\" from the python GUI on: " + my_data.timestamp)
-    #***NEW CHANGE-->I am not sure how to encode the data***
+    #***NEW CHANGE***
     pub.publish(my_data)
-         
-           
-           
+
+
     if (float(entry_source_x.get()) > -9999.0) :  # Terminiate program when source_x is <-9999
       root.bell()
       messagebox.showinfo("X-ray source action window", "\n** ACQUIRING VIRTUAL IMAGE **\n\nPosition =(%.2f,%.2f,%.2f)\nDirection=(%.2f,%.2f,%.2f)" % (my_data.source_position[0], my_data.source_position[1], my_data.source_position[2], my_data.source_direction[0], my_data.source_direction[1], my_data.source_direction[2]))
