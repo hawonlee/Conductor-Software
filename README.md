@@ -41,7 +41,7 @@ $ cd ~/catkin_ws
 $ source ./devel/setup.bash
 ```
 
-Place the virtual_dosimeter package in the src folder of the catkin workspace use:
+Place the virtual_dosimeter package in the src folder of the catkin workspace and use:
 ```
 $ catkin_make
 ```
