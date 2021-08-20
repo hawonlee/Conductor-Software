@@ -30,6 +30,7 @@ This code generates 2D plots of estimated dose data that is "computed" by the ot
 Install ROS through this site: https://www.ros.org/
 
 Create a catkin workspace: http://wiki.ros.org/catkin/Tutorials/create_a_workspace
+Place the virtual_dosimeter package in the src folder of the catkin workspace.
 
 Install Matplotlib: https://matplotlib.org/stable/users/installing.html
 
