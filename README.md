@@ -39,6 +39,7 @@ Before executing any code, source your environment:
 ```
 $ cd ~/catkin_ws
 $ source ./devel/setup.bash
+```
 
 Place the virtual_dosimeter package in the src folder of the catkin workspace and use:
 ```
@@ -55,6 +56,7 @@ $ chmod +x trigger_operator.py
 $ chmod +x conductor.py
 $ chmod +x monte_carlo.py
 $ chmod +x dose_display.py
+```
 
 When running code individually, run roscore before executing any code:
 ```
