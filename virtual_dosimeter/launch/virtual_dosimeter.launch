@@ -1,6 +1,7 @@
 <launch>
   <node name="conductor_node" pkg="virtual_dosimeter" type="conductor.py" output="screen"/>
   <node name="trigger_source_GUI_node" pkg="virtual_dosimeter" type="trigger_source_GUI.py" output="screen"/>
+  <node name="trigger_operator_node" pkg="virtual_dosimeter" type="trigger_operator.py" output="screen"/>
   <node name="monte_carlo_node" pkg="virtual_dosimeter" type="monte_carlo.py" output="screen"/>
   <node name="dose_display_node" pkg="virtual_dosimeter" type="dose_display.py" output="screen"/>
 </launch>

@@ -4,28 +4,28 @@
 #
 #  ** SOURCE INTERFACE GUI for the MC-GPU-based dose monitoring software (SPIE'2013) **
 #
-#   Send a system-wide message using the LCM middleware with the parameters 
+#   Send a system-wide message using ROS messages with the parameters 
 #   of a new x-ray image acquisition.
 #   The message should contain all the techique factor data required by the simulation.
-#   The message structure contents are described in the file source_data_t.lcm.
+#   The message structure contents are described in the file source_data_t.msg.
 #
 #                                 [ABS, 2013-01-14]
+#                                 [HL, 2021-8-20, LCM replaced with ROS]
 #
 #======================================================
 
 from tkinter import *
-from tkinter import messagebox #***NEW CHANGE-->tkMessageBox is now imported as messagebox***
-#import tkMessageBox   # Necessary to use tkMessageBox.showinfo
+from tkinter import messagebox # Necessary to use tkMessageBox.showinfo
 import time
 import rospy
 from math import *
 
-# Import my message data type (which has to be compiled for python with: "lcm-gen -p source_data_t.lcm"): ***NEW CHANGE***
+# Import my message data type:
 from virtual_dosimeter.msg import source_data_t
 
 
 #====================================================== 
-# ** New image button pressed! Read the data input by the user in the GUI and send it in an LCM message:
+# ** New image button pressed! Read the data input by the user in the GUI and send it in a ROS message:
 def trigger_acquisition() :
   
   if (not lb.curselection()):
@@ -33,9 +33,9 @@ def trigger_acquisition() :
       messagebox.showinfo("X-ray source action window", "Sorry, it was not possible to read the energy spectrum selection. Please re-select the file name in the list box and try again...")      
         
   else:      
-    # Init LCM message system and declare message variable: ***NEW CHANGE-->initialize the node with ROS***
-    pub = rospy.Publisher('SOURCE_CHANNEL', source_data_t, queue_size=10)
+    # Init ROS node, declare node as publisher, and declare message variable:
     rospy.init_node('trigger_source_GUI', anonymous=True)
+    pub = rospy.Publisher('SOURCE_CHANNEL', source_data_t, queue_size=10)
     my_data = source_data_t()
 
     # Assign data to local variables:
@@ -94,9 +94,8 @@ def trigger_acquisition() :
     # Set the amount of radiation [mAs] and energy spectra file name:
     my_data.mAs = mAs
     my_data.energy_spectrum_file = name_spectra
-      
-      
-      
+
+
     # Set data for the operator shield:                                  !!August2014!!
     my_data.shield_Euler_angles[0] = float(entry_shield_theta.get());
     my_data.shield_Euler_angles[1] = float(entry_shield_phi.get());
@@ -108,21 +107,21 @@ def trigger_acquisition() :
     my_data.shield_size[1] = float(entry_shield_Dy.get());
     my_data.shield_size[2] = float(entry_shield_Dz.get());
     my_data.shield_attCoef = float(entry_shield_attCoef.get());
-    
-    
-      
-      
+
+
     # Set the timestamp in ASCII for easy debugging (not used really): 
     my_data.timestamp = time.ctime()    
     
-    #// Send ROS message:
+    # Send ROS message:
     print ("     --- Sending a message in the \"SOURCE_CHANNEL\" from the python GUI on: " + my_data.timestamp)
-    #***NEW CHANGE***
-    pub.publish(my_data)
-
 
     if (float(entry_source_x.get()) > -9999.0) :  # Terminiate program when source_x is <-9999
       root.bell()
+      
+      # Wait until subscribers have been set up
+      while pub.get_num_connections() == 0:
+        rospy.sleep(0.5)
+      pub.publish(my_data)
       messagebox.showinfo("X-ray source action window", "\n** ACQUIRING VIRTUAL IMAGE **\n\nPosition =(%.2f,%.2f,%.2f)\nDirection=(%.2f,%.2f,%.2f)" % (my_data.source_position[0], my_data.source_position[1], my_data.source_position[2], my_data.source_direction[0], my_data.source_direction[1], my_data.source_direction[2]))
       
     else :
@@ -139,7 +138,7 @@ def trigger_acquisition_quit() :
     entry_source_x.delete(0,20)                      # Empty input data for source x position
     entry_source_x.insert(0, str(-99999.99))         # Insert new dummy value to signal end of acquisition
     if (not lb.curselection()): lb.selection_set(1)  # Make sure we have a valid selection in the list box (this value will not be used anyway)
-    trigger_acquisition()                            # Function will send a last LCM meesage and quit
+    trigger_acquisition()                            # Function will quit
     
   
 

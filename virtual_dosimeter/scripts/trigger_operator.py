@@ -1,27 +1,24 @@
 #!/usr/bin/env python
 
+#======================================================
 #
-#  KINECT INTERFACE:
-#  Simplified version of the kinect interface.
-#  The program runs an infinte loop mocking the kinect tracking loop and
-#  sends a set of positions at the moment a message from the source is received:
-#  asynchronous message reception!
+#  ** KINECT INTERFACE (2021-8-20) **
 #
+#   Simplified version of the kinect interface.
+#   The program runs an infinte loop mocking the kinect tracking loop and
+#   sends a set of positions at the moment a message from the source is received:
+#   asynchronous message reception!
 #
-#  Compilation:
-#    $lcm-gen -c mcgpu_kinect_data_t.lcm mcgpu_source_data_t.lcm -d 
-#    $gcc -o sourceListenerAsync_kinectTrigger.x sourceListenerAsync_kinectTrigger.c mcgpu_kinect_data_t.c mcgpu_source_data_t.c -llcm
-#
-
-#include <stdio.h>
-#include <inttypes.h>
-#include <sys/select.h>t
+#======================================================
 
 import rospy
 import time
+
+# Import my message data types:
 from virtual_dosimeter.msg import *
-exposure_counter = 1
-status = False
+
+exposure_counter = 1 # This variable is initializaed to 1 and increases at each call to count the number of messages
+status = False # This variable is used to signal when the source data has been received
 
 #
 # Function to initialize the kinect data to be sent:
@@ -38,7 +35,6 @@ def get_kinect_data(my_kinect_data):
 
 
 	# -- For even number of messages, move 1 meter towards the patient head:
-	# static exposure_counter=1    # This value of this static variable is remembered between function calls (initializaed to 1 and increases at each call).
 	if (0==(exposure_counter%2)):  # TRUE for even number of messages sent.
 		my_kinect_data.head[2]         = 130.0
 		my_kinect_data.leftShoulder[2] = 115.0
@@ -46,12 +42,15 @@ def get_kinect_data(my_kinect_data):
 		my_kinect_data.hipTorso[2]     = 130.0
  
 	exposure_counter += 1
-	my_kinect_data.timestamp = time.ctime() 
+	
+	# Set the timestamp in ASCII
+	my_kinect_data.timestamp = time.ctime()
+	
 	return my_kinect_data
 
-
-####
-
+#
+# Function to receive the source data from the Conductor module:
+#
 def callback_source(data):
 	print("\n --- Received message on channel \"source\". Timestamp: %s", data.timestamp)
 	print("       X-ray projection source parameters:\n")
@@ -65,36 +64,41 @@ def callback_source(data):
 	print("          shield_size         = (%f, %f, %f)\n" % (data.shield_size[0], data.shield_size[1], data.shield_size[2]))
 	print("          shield_AttenuationCoeficient = %f\n\n", data.shield_attCoef)
 	
+	# Signal that the source data was received
 	global status
 	status = True
 
-
+#
+# Function to send the kinect data once the source data has been received
+#
 def trigger_operator():
 	global status
-	pub = rospy.Publisher('KINECT_CHANNEL', kinect_data_t, queue_size=10)
+	
+	# Init ROS node and declare node as publisher
 	rospy.init_node('trigger_operator', anonymous=True)
+	pub = rospy.Publisher('KINECT_CHANNEL', kinect_data_t, queue_size=10)
 
 	print("\n\n\n   ** KINECT INTERFACE **\n\n")
-	print(    "      Send a system-wide message using the LCM middleware with the geometric parameters of the operator acquired\n")
+	print(    "      Send a system-wide message using ROS message with the geometric parameters of the operator acquired\n")
 	print(    "      with the kinect depth camera. The message emission is triggered by a message received from the x-ray source.\n")
-	print(    "      LCM EMISSION channel:  \"KINECT_CHANNEL\"; message description file: \"mcgpu_kinect_data_t.lcm\"\n")
-	print(    "      LCM RECEPTION channel: \"SOURCE_CHANNEL\"; message description file: \"mcgpu_source_data_t.lcm\"\n\n")       
+	print(    "      ROS topic:  \"KINECT_CHANNEL\"; message description file: \"mcgpu_kinect_data_t.msg\"\n")
+	print(    "      ROS topic channel: \"SOURCE_CHANNEL\"; message description file: \"mcgpu_source_data_t.msg\"\n\n")       
   
 	# -- Listen to the messages from the source only:
 	rospy.Subscriber("SOURCE_CONDUCTOR", source_data_t, callback_source)
-  
-	while not rospy.core.is_shutdown():
 
+	while not rospy.core.is_shutdown():
 		if(not status):
-			# no messages
-			print("waiting for message from the source...\n")   #!!DeBuG!! In this part of the loop the kinect will do th regular tracking things...
+			# No messages
+			print("waiting for message from the source...\n")
+			# Wait until a message is received
 			while not rospy.core.is_shutdown():
-				rospy.sleep(0.5)
+				rospy.rostime.wallsleep(0.5)
 				if status:
 					break
 
 		elif (status):
-      #     -- Send message to KINECT_CHANNEL:
+			# -- Send message to KINECT_CHANNEL:
 			my_kinect_data = kinect_data_t()
 			my_kinect_data = get_kinect_data(my_kinect_data)     # Init message
 			print("\n  +++ Sending a message to the \"KINECT_CHANNEL\" at: %s", my_kinect_data.timestamp)
@@ -105,6 +109,7 @@ def trigger_operator():
 			print("             rightShoulder = (%f, %f, %f)\n" % (my_kinect_data.rightShoulder[0], my_kinect_data.rightShoulder[1], my_kinect_data.rightShoulder[2]))
 			print("             hipTorso      = (%f, %f, %f)\n\n" % (my_kinect_data.hipTorso[0], my_kinect_data.hipTorso[1], my_kinect_data.hipTorso[2]))
 			
+			# Publish kinect data
 			pub.publish(my_kinect_data)
 			
 			status = False
