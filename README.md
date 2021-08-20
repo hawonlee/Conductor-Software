@@ -56,6 +56,7 @@ $ chmod +x trigger_operator.py
 $ chmod +x conductor.py
 $ chmod +x monte_carlo.py
 $ chmod +x dose_display.py
+$ chmod +x virtual_dosimeter.launch
 ```
 
 When running code individually, run roscore before executing any code:
