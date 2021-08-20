@@ -37,6 +37,7 @@ Install NumPy: https://numpy.org/install/
 
 Place the virtual_dosimeter package in the src folder of the catkin workspace and use:
 ```
+$ cd ~/catkin_ws
 $ catkin_make
 ```
 
@@ -64,11 +65,6 @@ $ rosrun virtual_dosimeter trigger_operator.py
 $ rosrun virtual_dosimeter conductor.py
 $ rosrun virtual_dosimeter monte_carlo.py
 $ rosrun virtual_dosimeter dose_display.py
-```
-To run c++ code individually, use rosrun hello_world file_name
-```
-$ rosrun virtual_dosimeter publisher
-$ rosrun virtual_dosimeter subscriber
 ```
 
 # Disclaimer
