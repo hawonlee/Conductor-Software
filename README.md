@@ -41,11 +41,7 @@ $ cd ~/catkin_ws
 $ source ./devel/setup.bash
 ```
 
-Place the virtual_dosimeter package in the src folder of the catkin workspace and use:
-```
-$ cd ~/catkin_ws
-$ catkin_make
-```
+Place the virtual_dosimeter package in the src folder of the catkin workspace
 
 Make the python files executable:
 ```
@@ -58,6 +54,14 @@ $ chmod +x monte_carlo.py
 $ chmod +x dose_display.py
 $ chmod +x virtual_dosimeter.launch
 ```
+
+Build the code in the catkin workspace:
+```
+$ cd ~/catkin_ws
+$ catkin_make
+```
+
+
 
 When running code individually, run roscore before executing any code:
 ```
