@@ -35,15 +35,15 @@ Install Matplotlib: https://matplotlib.org/stable/users/installing.html
 
 Install NumPy: https://numpy.org/install/
 
+Place the virtual_dosimeter package in the src folder of the catkin workspace and use:
+```
+$ catkin_make
+```
+
 Before executing any code, source your environment:
 ```
 $ cd ~/catkin_ws
 $ source ./devel/setup.bash
-```
-
-Place the virtual_dosimeter package in the src folder of the catkin workspace and use:
-```
-$ catkin_make
 ```
 
 When running code individually, run roscore before executing any code:
