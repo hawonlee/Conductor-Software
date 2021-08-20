@@ -31,6 +31,10 @@ Install ROS through this site: https://www.ros.org/
 
 Create a catkin workspace: http://wiki.ros.org/catkin/Tutorials/create_a_workspace
 
+Install Matplotlib: https://matplotlib.org/stable/users/installing.html
+
+Install NumPy: https://numpy.org/install/
+
 Before executing any code, source your environment:
 ```
 $ cd ~/catkin_ws
