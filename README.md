@@ -9,18 +9,23 @@ This software uses the Robot Operating System to coordinate four independent mod
 This package contains five modules:
 
 1. Conductor
+
 This module coordinates all the modules by exchanging messages between them.
 
 2. Virtual x-ray source
+
 This module recevies x-ray source parameters through user input.
 
 3. Operatoring position tracker
+
 This module mocks the real operator position tracking with set sample reference points.
 
 4. Monte Carlo
+
 This module mocks the real Monte Carlo code with set dose data values.
 
 5. Dose display
+
 This module plots a bar graph and a table of the dose data and updates with new data for every exposure.
 
 # Code output
