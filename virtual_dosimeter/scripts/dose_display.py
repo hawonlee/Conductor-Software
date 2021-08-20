@@ -51,7 +51,7 @@ def make_display():
 	
 	# For each exposure, the dose values are added to this variable:
 	total_dose = np.array([0, 0, 0, 0])
-
+	
 	fig, ax = plt.subplots(figsize=(9, 7))
 	width = 0.5
 	
