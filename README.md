@@ -36,9 +36,7 @@ Install ROS through this site: https://www.ros.org/
 
 Create a catkin workspace: http://wiki.ros.org/catkin/Tutorials/create_a_workspace
 
-Install Matplotlib: https://matplotlib.org/stable/users/installing.html
-
-Install NumPy: https://numpy.org/install/
+Place the virtual_dosimeter package in the src folder of the catkin workspace
 
 Before executing any code, source your environment:
 ```
@@ -46,17 +44,16 @@ $ cd ~/catkin_ws
 $ source ./devel/setup.bash
 ```
 
-Place the virtual_dosimeter package in the src folder of the catkin workspace
-
 Make the python files executable:
 ```
-$ cd virtual_dosimeter
-$ cd scripts
+$ cd ./src/virtual_dosimeter/scripts
 $ chmod +x trigger_source_GUI.py
 $ chmod +x trigger_operator.py
 $ chmod +x conductor.py
 $ chmod +x monte_carlo.py
 $ chmod +x dose_display.py
+$ cd ~/catkin_ws
+$ cd launch
 $ chmod +x virtual_dosimeter.launch
 ```
 
@@ -66,9 +63,7 @@ $ cd ~/catkin_ws
 $ catkin_make
 ```
 
-
-
-When running code individually, run roscore before executing any code:
+When running code scripts individually, run roscore before executing any code:
 ```
 $ roscore
 ```
@@ -79,7 +74,7 @@ To launch the software, use roslaunch:
 $ roslaunch virtual_dosimeter virtual_dosimeter.launch
 ```
 
-To run python code individually, use rosrun virtual_dosimeter file_name.py
+To run code scripts individually, use rosrun virtual_dosimeter file_name.py
 ```
 $ rosrun virtual_dosimeter trigger_source_GUI.py
 $ rosrun virtual_dosimeter trigger_operator.py
